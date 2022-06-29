@@ -3,6 +3,7 @@ package tcu.backend.cars.service_impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
+import tcu.backend.cars.config.CarsServiceConfig;
 import tcu.backend.cars.model.CarInformations;
 import tcu.backend.cars.model.CarLinkToAccountInfo;
 import tcu.backend.cars.model.CarLinkageToAccountToken;
@@ -25,6 +26,9 @@ public class CarInformationsServiceImpl implements CarInformationsService {
     @Autowired
     private CarEmailSenderService carEmailSenderService;
 
+    @Autowired
+    private CarsServiceConfig carsConfig;
+
     private CarLinkToAccountInfo currentUserProcessing;
 
     private static final HashMap<CarAPIResponseForClient, String> responsesForClient;
@@ -43,6 +47,8 @@ public class CarInformationsServiceImpl implements CarInformationsService {
 
     @Override
     public CarInformationsAPIResponse getCarByVIN(String carVin) {
+
+        System.out.println("Loaded settings from ConfigServer: " + carsConfig.getTokenValidTime());
 
         CarInformations responseFromDB = carInformationsRepository.findByCarVin(carVin);
 
